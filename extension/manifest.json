@@ -1,0 +1,22 @@
+{
+  "manifest_version": 3,
+  "name": "CloakBuster Shield - Zero-Hour Anti-Cloaking",
+  "version": "1.0.0",
+  "description": "Multi-Persona Differential Probing & Real-Time Anti-Evasion Interceptor",
+  "permissions": [
+    "webNavigation",
+    "declarativeNetRequest",
+    "storage",
+    "activeTab"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_icon": "icons/shield_128.png"
+  }
+}

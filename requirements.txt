@@ -1,0 +1,16 @@
+fastapi>=0.100.0
+uvicorn>=0.22.0
+requests>=2.31.0
+httpx>=0.24.0
+playwright>=1.35.0
+tldextract>=3.4.0
+idna>=3.4.0
+python-whois>=0.8.0
+pydantic>=2.0.0
+streamlit>=1.24.0
+imagehash>=4.3.1
+Pillow>=9.5.0
+numpy>=1.24.0
+opencv-python-headless>=4.7.0.72
+pytest>=7.3.0
+pytest-asyncio>=0.21.0

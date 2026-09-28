@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CloakBuster Shield - Access Blocked</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0f172a;
+            color: #f8fafc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .warning-card {
+            background: #1e293b;
+            border: 2px solid #ef4444;
+            padding: 40px;
+            border-radius: 12px;
+            max-width: 520px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(239, 68, 68, 0.2);
+        }
+        .icon { font-size: 64px; margin-bottom: 10px; }
+        h1 { color: #f87171; margin-bottom: 10px; font-size: 24px; }
+        p { color: #94a3b8; font-size: 14px; line-height: 1.6; }
+        .details-box {
+            background: #0f172a;
+            border-radius: 6px;
+            padding: 15px;
+            margin: 20px 0;
+            text-align: left;
+            font-size: 13px;
+        }
+        .details-box span { display: block; margin-bottom: 5px; }
+        .score-pill {
+            display: inline-block;
+            background: #ef4444;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-weight: bold;
+        }
+        .btn-back {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn-back:hover { background: #2563eb; }
+    </style>
+</head>
+<body>
+    <div class="warning-card">
+        <div class="icon">🚨</div>
+        <h1>CloakBuster Shield Interception</h1>
+        <p>This website has been blocked due to confirmed <strong>Pre-Render Cloaking</strong> and high-fidelity phishing signatures.</p>
+
+        <div class="details-box">
+            <span><strong>Target URL:</strong> <code id="blocked-url">Loading...</code></span>
+            <span><strong>Threat Level:</strong> <span class="score-pill" id="blocked-score">0 / 100</span></span>
+            <span><strong>Detection Reason:</strong> <span id="blocked-reason">Differential Probing Divergence</span></span>
+        </div>
+
+        <button class="btn-back" onclick="window.history.back()">Go Back to Safety</button>
+    </div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        document.getElementById('blocked-url').innerText = params.get('url') || 'Unknown';
+        document.getElementById('blocked-score').innerText = (params.get('score') || '90') + ' / 100';
+        document.getElementById('blocked-reason').innerText = params.get('reason') || 'High Risk Cloaking Detected';
+    </script>
+</body>
+</html>
