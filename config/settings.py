@@ -6,7 +6,7 @@ import os
 class Settings:
     # Server configuration
     API_HOST: str = "127.0.0.1"
-    API_PORT: int = 8000
+    API_PORT: int = 8008
     MOCK_SERVER_PORT: int = 5000
     
     # Timeout Settings (seconds)

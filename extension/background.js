@@ -3,7 +3,7 @@
  * Intercepts navigation events and queries CloakBuster Inspection API.
  */
 
-const API_ENDPOINT = "http://127.0.0.1:8000/api/v1/analyze";
+const API_ENDPOINT = "http://127.0.0.1:8008/api/v1/analyze";
 
 chrome.webNavigation.onBeforeNavigate.addListener(async (details) => {
   // Only inspect main frame navigations

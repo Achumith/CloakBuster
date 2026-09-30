@@ -19,7 +19,7 @@ CloakBuster/
 │   └── visual_verification.py   # Module 8: Screenshots & pHash Visual Twin Classifier
 ├── server/
 │   ├── mock_server.py           # Module 5A: Local Cloaking Target Mock Server (Port 5000)
-│   └── api.py                   # FastAPI Inspection Backend Server (Port 8000)
+│   └── api.py                   # FastAPI Inspection Backend Server (Port 8008)
 ├── ui/
 │   └── app.py                   # Module 5B: Streamlit Interactive Triage Dashboard
 ├── extension/                   # Module 9: Real-Time Interception Chrome Extension (Manifest V3)
@@ -38,7 +38,7 @@ CloakBuster/
 
 ```bash
 # Navigate to the project directory
-cd C:\Users\USER\.gemini\antigravity-ide\scratch\CloakBuster
+cd c:\Users\USER\Desktop\CloakBuster
 
 # Install dependencies
 pip install -r requirements.txt
@@ -62,7 +62,7 @@ python main.py mock
 #### Step 2: Start the FastAPI Inspection Backend (Terminal 2)
 ```bash
 python main.py server
-# API runs on http://127.0.0.1:8000
+# API runs on http://127.0.0.1:8008
 ```
 
 #### Step 3: Launch the Streamlit Triage Dashboard (Terminal 3)

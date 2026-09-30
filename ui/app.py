@@ -10,8 +10,9 @@ import httpx
 import asyncio
 import pandas as pd
 import base64
+from config.settings import settings
 
-API_ENDPOINT = "http://127.0.0.1:8000/api/v1/analyze"
+API_ENDPOINT = f"http://{settings.API_HOST}:{settings.API_PORT}/api/v1/analyze"
 
 st.set_page_config(
     page_title="CloakBuster // Zero-Hour Cloaking & Phishing Defense",
@@ -878,4 +879,4 @@ if execute_probe:
                 else:
                     st.error(f"Inspection Engine Error {response.status_code}: {response.text}")
             except Exception as e:
-                st.error(f"Failed to communicate with CloakBuster API (http://127.0.0.1:8000). Error: {e}")
+                st.error(f"Failed to communicate with CloakBuster API ({API_ENDPOINT}). Error: {e}")
