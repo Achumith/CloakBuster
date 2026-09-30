@@ -30,22 +30,26 @@ class MultiPersonaEngine:
                 
                 inputs = await page.eval_on_selector_all("input", "inputs => inputs.map(i => i.type)")
                 
+                screenshot_bytes = await page.screenshot(type="png", full_page=False)
+
                 await browser.close()
 
                 return {
-                    "persona": "Persona C (Mobile Device)",
+                    "persona": "Persona C (Mobile Device - iPhone 13)",
                     "status_code": status_code,
                     "dom_size": len(dom_text),
                     "input_count": len(inputs),
+                    "screenshot_bytes": screenshot_bytes,
                     "success": True,
                     "error": None
                 }
         except Exception as e:
             return {
-                "persona": "Persona C (Mobile Device)",
+                "persona": "Persona C (Mobile Device - iPhone 13)",
                 "status_code": 0,
                 "dom_size": 0,
                 "input_count": 0,
+                "screenshot_bytes": None,
                 "success": False,
                 "error": str(e)
             }

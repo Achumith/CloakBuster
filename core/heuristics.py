@@ -14,6 +14,7 @@ from urllib.parse import urlparse
 import tldextract
 import idna
 import whois
+from config.settings import settings
 
 class URLHeuristicsAnalyzer:
     def __init__(self, timeout: float = 5.0):
@@ -60,10 +61,25 @@ class URLHeuristicsAnalyzer:
 
     def check_whois_age(self, domain: str) -> Dict[str, Any]:
         """Retrieve domain WHOIS creation date and age in days."""
+        extracted = tldextract.extract(domain)
+        reg_domain = f"{extracted.domain}.{extracted.suffix}".lower()
+
+        if reg_domain in settings.HIGH_REPUTATION_DOMAINS:
+            return {
+                "creation_date": "Established (Authority)",
+                "age_days": 9999,
+                "is_new_domain": False,
+                "whois_success": True
+            }
+
         try:
-            extracted = tldextract.extract(domain)
-            reg_domain = f"{extracted.domain}.{extracted.suffix}"
-            w = whois.whois(reg_domain)
+            # Set short socket timeout to prevent WHOIS from hanging
+            orig_timeout = socket.getdefaulttimeout()
+            socket.setdefaulttimeout(3.0)
+            try:
+                w = whois.whois(reg_domain)
+            finally:
+                socket.setdefaulttimeout(orig_timeout)
             
             creation_date = w.creation_date
             if isinstance(creation_date, list):
@@ -78,7 +94,7 @@ class URLHeuristicsAnalyzer:
                     "is_new_domain": is_new_domain,
                     "whois_success": True
                 }
-        except Exception as e:
+        except Exception:
             pass
 
         return {
@@ -122,22 +138,29 @@ class URLHeuristicsAnalyzer:
         parsed = urlparse(url)
         hostname = parsed.hostname or url
 
+        extracted = tldextract.extract(hostname)
+        reg_domain = f"{extracted.domain}.{extracted.suffix}".lower()
+        is_high_reputation = reg_domain in settings.HIGH_REPUTATION_DOMAINS
+
         puny_info = self.check_punycode_and_homoglyphs(hostname)
         whois_info = self.check_whois_age(hostname)
         ssl_info = self.check_ssl_certificate(hostname) if parsed.scheme == "https" else {"ssl_valid": False, "ssl_error": "HTTP Scheme"}
 
         # Calculate heuristic risk score component (0 to 5)
         heuristic_flags = 0
-        if puny_info["is_homoglyph_risk"]:
-            heuristic_flags += 2
-        if whois_info["is_new_domain"]:
-            heuristic_flags += 2
-        if not ssl_info["ssl_valid"] and parsed.scheme == "https":
-            heuristic_flags += 1
+        if not is_high_reputation:
+            if puny_info["is_homoglyph_risk"]:
+                heuristic_flags += 2
+            if whois_info["is_new_domain"]:
+                heuristic_flags += 2
+            if not ssl_info["ssl_valid"] and parsed.scheme == "https":
+                heuristic_flags += 1
 
         return {
             "canonical_url": url,
             "hostname": hostname,
+            "registered_domain": reg_domain,
+            "is_high_reputation": is_high_reputation,
             "scheme": parsed.scheme,
             "punycode_info": puny_info,
             "whois_info": whois_info,

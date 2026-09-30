@@ -65,7 +65,8 @@ def main():
         start_api()
     elif args.mode == "ui":
         import os
-        os.system("streamlit run ui/app.py")
+        os.environ["PYTHONUTF8"] = "1"
+        os.system(f'"{sys.executable}" -m streamlit run ui/app.py')
 
 if __name__ == "__main__":
     main()
